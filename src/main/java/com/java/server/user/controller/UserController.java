@@ -1,4 +1,4 @@
-package controller;
+package com.java.server.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import model.RegisterUserRequest;
-import model.WebResponse;
-import service.UserService;
+import com.java.server.user.model.RegisterUserRequest;
+import com.java.server.user.model.WebResponse;
+import com.java.server.user.service.UserService;
 
 @RestController
 public class UserController {

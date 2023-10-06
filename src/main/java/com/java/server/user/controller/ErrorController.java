@@ -1,4 +1,4 @@
-package controller;
+package com.java.server.user.controller;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
-import model.WebResponse;
+import com.java.server.user.model.WebResponse;
 
 @RestControllerAdvice
 public class ErrorController {

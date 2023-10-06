@@ -1,5 +1,6 @@
-package model;
+package com.java.server.user.model;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -24,5 +25,6 @@ public class RegisterUserRequest {
 
     @NotBlank
     @Size(max = 100)
+    @Email // Validate format email
     private String email;
 }
