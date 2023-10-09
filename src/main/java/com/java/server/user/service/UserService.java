@@ -1,5 +1,6 @@
 package com.java.server.user.service;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class UserService {
             }
         }
 
-        // Create new user
+        // Create new user entity
         User newUser = new User();
         newUser.setEmail(request.getEmail());
         newUser.setUsername(request.getUsername());
@@ -49,9 +50,9 @@ public class UserService {
         userRepository.save(newUser);
     }
 
-    @Transactional(readOnly = true)
-    public User getByID(Integer id) {
-        var user = userRepository.getReferenceById(id.toString());
+    @Transactional(readOnly = true) // Flag db access as read only
+    public Optional<User> getByID(Long id) {
+        var user = userRepository.findById(id.toString());
         return user;
     }
 }
