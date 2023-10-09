@@ -5,6 +5,8 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -54,5 +56,11 @@ public class UserService {
     public Optional<User> getByID(Long id) {
         var user = userRepository.findById(id.toString());
         return user;
+    }
+
+    // Get list of user using pagination
+    @Transactional(readOnly = true)
+    public Page<User> getUsersWithPagination(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 }

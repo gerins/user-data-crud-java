@@ -4,9 +4,13 @@ content-type: application/json
 {
   "username": "gerin2",
   "email": "gerin2@google.com",
-  "password": "asdk112hj3g1jk2h3g"
+  "password": ""
 }
 
 ### Get user by id
 GET http://localhost:8080/api/users/1 HTTP/1.1
+
+
+### Get user list
+GET http://localhost:8080/api/users?page=0&size=5 HTTP/1.1
 

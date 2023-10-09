@@ -3,6 +3,8 @@ package com.java.server.user.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +39,17 @@ public class UserController {
             return ResponseEntity.ok(userOptional.get());
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping(path = "/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<User>> getUsersWithPagination(Pageable pageable) {
+        Page<User> usersPage = userService.getUsersWithPagination(pageable);
+
+        if (!usersPage.isEmpty()) {
+            return ResponseEntity.ok(usersPage);
+        } else {
+            return ResponseEntity.noContent().build();
         }
     }
 }

@@ -1,4 +1,4 @@
-PHONY: help build run
+PHONY: help build clean run start
 
 # COLORS
 GREEN  := $(shell tput -Txterm setaf 2)
@@ -17,9 +17,14 @@ help: ## Show this help.
 
 
 build: ## Running Build
-	@mvn clean package assembly:single
+	@mvn clean package
 
-run: ## Run server
-	@mvn clean package assembly:single
-	@java -jar target/aaaaaaaaaaaaaa.jar
+clean: ## Clean target folder
 	@mvn clean
+
+run: ## Build and run server
+	@mvn clean package
+	@java -jar target/java-server.jar --spring.config.location=src/main/resources/application.properties
+
+start: ## Just start the server
+	@java -jar target/java-server.jar --spring.config.location=src/main/resources/application.properties
