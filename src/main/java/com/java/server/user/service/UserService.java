@@ -20,7 +20,7 @@ import jakarta.validation.Validator;
 
 @Service
 public class UserService {
-    @Autowired // Auto inject dependency using springboot
+    @Autowired // Field based dependency injection
     private UserRepository userRepository;
 
     @Autowired

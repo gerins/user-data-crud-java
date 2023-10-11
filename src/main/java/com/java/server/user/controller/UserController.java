@@ -20,8 +20,14 @@ import com.java.server.user.service.UserService;
 
 @RestController
 public class UserController {
-    @Autowired
     private UserService userService;
+
+    // Constructor based dependency injection
+    // Spring will automatically provide an instance of UserService if it's
+    // available in the application context.
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     // Define register route with method POST
     @PostMapping(path = "/api/users", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
