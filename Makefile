@@ -24,7 +24,7 @@ clean: ## Clean target folder
 
 run: ## Build and run server
 	@mvn clean package
-	@java -jar target/java-server.jar --spring.config.location=src/main/resources/application.properties
+	@java -jar target/java-server.jar --server.port=8080 --spring.config.location=src/main/resources/application.properties
 
 start: ## Just start the server
-	@java -jar target/java-server.jar --spring.config.location=src/main/resources/application.properties
+	@mvn spring-boot:run
