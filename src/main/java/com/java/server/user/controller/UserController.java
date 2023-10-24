@@ -2,9 +2,13 @@ package com.java.server.user.controller;
 
 import java.util.Optional;
 
+import org.jpos.iso.ISOException;
+import org.jpos.iso.ISOMsg;
+import org.jpos.iso.packager.GenericPackager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,6 +60,28 @@ public class UserController {
             return ResponseEntity.ok(usersPage);
         } else {
             return ResponseEntity.noContent().build();
+        }
+    }
+
+    @GetMapping(path = "/api/iso8583", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<byte[]> generateISO8583Message() {
+        ISOMsg isoMsg = new ISOMsg();
+
+        try {
+            // Load the packager from your XML definition file
+            GenericPackager packager = new GenericPackager("./files/spec/iso8583.xml");
+            isoMsg.setPackager(packager);
+
+            isoMsg.setMTI("0200");
+            isoMsg.set(3, "000000"); // Field 3
+            isoMsg.set(4, "10000"); // Field 4
+
+            byte[] messageBytes = isoMsg.pack();
+
+            return ResponseEntity.ok(messageBytes);
+        } catch (ISOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }
