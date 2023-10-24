@@ -10,8 +10,7 @@ name: Java CI with Maven
 
 on:
   push:
-    branches:
-      - master # Trigger deployment only on push to main branch
+    branches: [ "master" ]
     
 jobs:
   build:
@@ -19,24 +18,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Clone from repository
-    - name: Checkout the files
     - uses: actions/checkout@v3
-
-    # Setup JDK for compiling
+    
     - name: Set up JDK 20
       uses: actions/setup-java@v3
       with:
         java-version: '20'
         distribution: 'temurin'
         cache: maven
-
-    # Compile with mvn package command
+        
     - name: Build with Maven
       run: mvn package
 
-    # Upload to EC2
-    - name: Deploy to Server EC2
+    - name: Deploy to Server
       uses: easingthemes/ssh-deploy@main
       env:
         SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
@@ -44,8 +38,7 @@ jobs:
         REMOTE_USER: ${{ secrets.EC2_USERNAME }}
         SOURCE: "target/java-server.jar"
         TARGET: "~/java"
-
-    # Restart server in EC2 using supervisor
+        
     - name: Executing remote ssh commands using ssh key
       uses: appleboy/ssh-action@master
       with:
