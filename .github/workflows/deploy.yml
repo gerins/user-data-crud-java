@@ -10,7 +10,8 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master # Trigger deployment only on push to main branch
     
 jobs:
   build:
