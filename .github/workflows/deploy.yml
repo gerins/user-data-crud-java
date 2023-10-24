@@ -55,4 +55,5 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_PRIVATE_KEY }}
         script: |
+          export ISO8583_XML_PATH=~/java/files/spec/iso8583.xml
           sudo supervisorctl restart java-server-1

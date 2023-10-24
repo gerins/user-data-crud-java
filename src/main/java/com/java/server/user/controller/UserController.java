@@ -65,18 +65,30 @@ public class UserController {
 
     @GetMapping(path = "/api/iso8583", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<byte[]> generateISO8583Message() {
-        ISOMsg isoMsg = new ISOMsg();
+        // Retrieve the XML path from the environment variable
+        String xmlPath = System.getenv("ISO8583_XML_PATH");
+        if (xmlPath == null) {
+            xmlPath = "./files/spec/iso8583.xml"; // Default path
+        }
 
         try {
             // Load the packager from your XML definition file
-            GenericPackager packager = new GenericPackager("./files/spec/iso8583.xml");
-            isoMsg.setPackager(packager);
+            GenericPackager packager = new GenericPackager(xmlPath);
 
+            // Generate ISO8583 message
+            ISOMsg isoMsg = new ISOMsg();
+            isoMsg.setPackager(packager);
             isoMsg.setMTI("0200");
             isoMsg.set(3, "000000"); // Field 3
             isoMsg.set(4, "10000"); // Field 4
 
             byte[] messageBytes = isoMsg.pack();
+
+            // Parse ISO8583 message
+            ISOMsg responseMsg = new ISOMsg();
+            responseMsg.setPackager(packager);
+            responseMsg.unpack(messageBytes);
+            System.out.println(responseMsg.getValue(3)); // Read field 3
 
             return ResponseEntity.ok(messageBytes);
         } catch (ISOException e) {
